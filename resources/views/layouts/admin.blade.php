@@ -11,11 +11,48 @@
     <aside class="w-64 bg-gray-800 text-white min-h-screen p-5">
         <h2 class="text-xl font-bold mb-6">Admin Panel</h2>
 
-        <ul class="space-y-3">
-            <li><a href="/admin" class="hover:text-gray-300">Dashboard</a></li>
-            <li><a href="#" class="hover:text-gray-300">Kelola Paket</a></li>
-            <li><a href="#" class="hover:text-gray-300">Pembayaran</a></li>
-            <li><a href="#" class="hover:text-gray-300">Keuangan</a></li>
+        <ul class="space-y-2">
+
+            <li>
+                <a href="/admin" class="group flex p-2 rounded hover:bg-gray-700 transition">
+                    <span class="text-gray-300 group-hover:text-white">
+                        Dashboard
+                    </span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/kelolaPaket" class="group flex p-2 rounded hover:bg-gray-700 transition">
+                    <span class="text-gray-300 group-hover:text-white">
+                        Kelola Paket
+                    </span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/transaksi" class="group flex p-2 rounded hover:bg-gray-700 transition">
+                    <span class="text-gray-300 group-hover:text-white">
+                        Pembayaran
+                    </span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="group flex p-2 rounded hover:bg-gray-700 transition">
+                    <span class="text-gray-300 group-hover:text-white">
+                        Keuangan
+                    </span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/jadwal" class="group flex p-2 rounded hover:bg-gray-700 transition">
+                    <span class="text-gray-300 group-hover:text-white">
+                        Jadwal
+                    </span>
+                </a>
+            </li>
+
         </ul>
     </aside>
 
@@ -25,7 +62,7 @@
             {{ auth()->user()->name }}
             <form action="{{ route('logout') }}" method="POST" class="ml-3">
                 @csrf
-                <button class="bg-red-500 px-3 py-1 rounded text-white">
+                <button class="bg-red-500 px-3 py-1 rounded text-white hover:bg-red-600 transition">
                     Logout
                 </button>
             </form>

@@ -9,18 +9,33 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-{
-    Schema::create('bookings', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('produk_id')->constrained()->onDelete('cascade');
-        $table->date('tanggal');
-        $table->time('jam');
-        $table->string('status')->default('pending');
-        $table->timestamps();
-});
-}
+     public function up(): void
+    {
+        Schema::create('bookings', function (Blueprint $table) {
+
+            $table->id();
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onDelete('cascade');
+
+            $table->foreignId('paket_id')
+                ->constrained()
+                ->onDelete('cascade');
+
+            $table->foreignId('studio_id')
+                ->constrained()
+                ->onDelete('cascade');
+
+            $table->date('tanggal_pesanan');
+            $table->time('jam_pesanan');
+
+            $table->string('status')->default('pending');
+
+            $table->timestamps();
+
+        });
+    }
 
     /**
      * Reverse the migrations.
