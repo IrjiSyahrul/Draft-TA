@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Paket;
+use App\Models\Booking;
+use App\Models\Transaksi;
+
+class BookingController extends Controller
+{
+
+public function index()
+{
+    $booking = Booking::with(['paket','transaksi'])
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->get();
+
+    return view('user.pembayaran.index', compact('booking'));
+}
+
+public function create(Paket $paket)
+{
+    return view('user.booking.create', compact('paket'));
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'paket_id' => 'required',
+        'tanggal_pesanan' => 'required|date',
+        'jam_pesanan' => 'required'
+    ]);
+
+    // cek slot sudah ada
+    $cek = Booking::where('tanggal_pesanan', $request->tanggal_pesanan)
+        ->where('jam_pesanan', $request->jam_pesanan)
+        ->exists();
+
+    if ($cek) {
+        return back()->with('error', 'Slot waktu sudah dibooking!');
+    }
+
+    // simpan booking
+    $booking = Booking::create([
+        'user_id' => auth()->id(),
+        'paket_id' => $request->paket_id,
+        'tanggal_pesanan' => $request->tanggal_pesanan,
+        'jam_pesanan' => $request->jam_pesanan,
+        'status' => 'pending'
+    ]);
+
+    // buat transaksi otomatis
+    Transaksi::create([
+        'booking_id' => $booking->id,
+        'jumlah' => $booking->paket->harga,
+        'status' => 'pending'
+    ]);
+
+    return redirect()->route('pembayaran.index')
+        ->with('success','Booking berhasil dibuat');
+}
+
+}
